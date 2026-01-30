@@ -10,24 +10,31 @@ import CameraRig from "./CameraRig";
 const machines = [
   {
     id: 1,
-    name: "Machine A",
+    name: "Mechanical cash register",
     model: "/models/machine1.glb",
     position: [-6, 0.9, 0],
     scale: 0.009,
+    description: "A classic mechanical cash register with brass finish. Operated by hand-crank.",
+    rotation: [0, Math.PI / 2, 0],
   },
   {
     id: 2,
-    name: "Machine B",
+    name: "Micrometer measuring instrument",
     model: "/models/machine2.glb",
     position: [0, -1.3, 0],
     scale: 50,
+    description: "A precision micrometer used for measuring small dimensions with high accuracy.",
+    rotation: [0, -Math.PI / 4, 0],
   },
   {
     id: 3,
-    name: "Machine C",
+    name: "Coffee vending machine",
     model: "/models/machine3.glb",
     position: [8, -1.3, 0],
     scale: 2.5,
+    temperature: 72,
+    description: "An automated coffee vending machine offering a variety of hot beverages.",
+    rotation: [0, Math.PI / 8, 0],
   },
 ];
 
@@ -36,11 +43,12 @@ function Table() {
   return <primitive object={scene} position={[0, -10, 0]} scale={10} />;
 }
 
-export default function Scene({ selected, setSelected }) {
+export default function Scene({ selected, setSelected, setPanelPos, orbiting, setOrbiting }) {
   const controlsRef = useRef();
 
   return (
-    <Canvas camera={{ position: [0, 2, 8], fov: 60 }} shadows>
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <Canvas camera={{ position: [0, 2, 8], fov: 60 }} shadows>
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 5]} intensity={1.2} castShadow />
 
@@ -48,7 +56,7 @@ export default function Scene({ selected, setSelected }) {
 
       <Table />
 
-      <CameraRig selected={selected} controls={controlsRef} />
+      <CameraRig selected={selected} controls={controlsRef} orbiting={orbiting} />
 
       {machines.map((machine) => {
         if (selected && selected.id !== machine.id) return null;
@@ -71,6 +79,7 @@ export default function Scene({ selected, setSelected }) {
         minDistance={3}
         maxDistance={13}
       />
-    </Canvas>
+      </Canvas>
+    </div>
   );
 }

@@ -94,6 +94,7 @@ export default function MachineModel({ data, isSelected, onSelect }) {
       ref={ref}
       object={clonedScene}
       position={data.position}
+      rotation={data.rotation}
       onPointerDown={(e) => {
         e.stopPropagation();
         onSelect(data);
